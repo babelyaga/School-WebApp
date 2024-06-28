@@ -1,0 +1,44 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">Welcome to Our School System</h1>
+        <p class="lead fs-4 text-muted">Empowering Education through Efficient Management</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+        {
+            <div class="col-md-5">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h3 class="card-title">Students</h3>
+                        <p class="card-text">Manage student records, enrollments, and academic progress.</p>
+                        <a asp-controller="Students" asp-action="List" class="btn btn-outline-primary">Manage Students</a>
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-md-5">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <i class="fas fa-chalkboard-teacher fa-3x text-success mb-3"></i>
+                    <h3 class="card-title">Courses</h3>
+                    <p class="card-text">Browse and manage course offerings, schedules, and curricula.</p>
+                    <a asp-controller="Courses" asp-action="ListCourse" class="btn btn-outline-success">Manage Courses</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-5">
+        <p class="text-muted">Built and designed by Kamen Petrov</p>
+    </div>
+</div>

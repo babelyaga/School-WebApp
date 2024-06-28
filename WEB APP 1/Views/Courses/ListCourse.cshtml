@@ -1,0 +1,71 @@
+﻿@model List<WEB_APP_1.Models.Entities.Course>
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="display-4 text-primary">Courses Directory</h1>
+        </div>
+        @if ((await AuthorizationService.AuthorizeAsync(User, "AdminPolicy")).Succeeded)
+        {
+            <div class="col-auto">
+                <a asp-controller="Courses" asp-action="AddCourse" class="btn btn-success">
+                    <i class="fas fa-plus-circle me-2"></i>Add New Course
+                </a>
+            </div>
+        }
+    </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+            <table class="table table-borderless">
+                    <thead>
+                        <tr class="bg-light">
+                            <th class="px-4 py-3">Course Name</th>
+                            <th class="px-4 py-3">Subject</th>
+                            <th class="px-4 py-3">Date</th>
+                            <th class="px-4 py-3">Start Time</th>
+                            <th class="px-4 py-3">Location</th>
+                            <th class="px-4 py-3">Status</th>
+                            @if ((await AuthorizationService.AuthorizeAsync(User, "AdminPolicy")).Succeeded)
+                            {
+                                <th class="px-4 py-3 text-center">Actions</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var course in Model)
+                        {
+                            <tr>
+                                <td class="px-4 py-3">@course.CourseName</td>
+                                <td class="px-4 py-3">@course.Subject</td>
+                                <td class="px-4 py-3">@course.Date.ToShortDateString()</td>
+                                <td class="px-4 py-3">@course.StartTime.ToShortTimeString()</td>
+                                <td class="px-4 py-3">@course.Location</td>
+                                <td class="px-4 py-3">
+                                    @if (course.IsActive)
+                                    {
+                                        <span class="badge bg-success">Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Inactive</span>
+                                    }
+                                </td>
+                                @if ((await AuthorizationService.AuthorizeAsync(User, "AdminPolicy")).Succeeded)
+                                {
+                                    <td class="px-4 py-3 text-center">
+                                        <a class="btn btn-sm btn-outline-primary" asp-controller="Courses" asp-action="EditCourse" asp-route-id="@course.Id">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿@model List<WEB_APP_1.Models.Entities.Student>
+<div class="container mt-5">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1 class="display-4 text-primary">Students Directory</h1>
+        </div>
+        <div class="col-auto">
+            <a asp-controller="Students" asp-action="Add" class="btn btn-success">
+                <i class="fas fa-plus-circle me-2"></i>Add New Student
+            </a>
+        </div>
+    </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+            <table class="table table-borderless">
+                    <thead>
+                    <tr class="bg-light">
+                            <th class="px-4 py-3">Name</th>
+                            <th class="px-4 py-3">Email</th>
+                            <th class="px-4 py-3">Phone</th>
+                            <th class="px-4 py-3">Course</th>
+                            <th class="px-4 py-3">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var student in Model)
+                        {
+                            <tr>
+                                <td class="px-4 py-3">@student.FirstName @student.LastName</td>
+                                <td class="px-4 py-3">@student.Email</td>
+                                <td class="px-4 py-3">@student.Phone</td>
+                                <td class="px-4 py-3">
+                                    @if (student.Course != null)
+                                    {
+                                        <span class="badge bg-info text-dark">@student.Course.CourseName</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">No Course Assigned</span>
+                                    }
+                                </td>
+                                <td class="px-4 py-3">
+                                    <a class="btn btn-sm btn-outline-primary me-2" asp-controller="Students" asp-action="Edit" asp-route-id="@student.Id">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

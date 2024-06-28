@@ -1,0 +1,76 @@
+﻿@model WEB_APP_1.Models.AddStudentsViewModel
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-4 text-primary fw-bold">Edit Student</h1>
+        </div>
+    </div>
+
+    @if (Model == null)
+    {
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle me-2"></i>No student was found with this id.
+        </div>
+    }
+    else
+    {
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <form method="post" id="editForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label asp-for="FirstName" class="form-label">First Name</label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="LastName" class="form-label">Last Name</label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Phone" class="form-label">Phone</label>
+                            <input asp-for="Phone" class="form-control" />
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
+                            <label asp-for="CourseId" class="form-label">Course</label>
+                            <select asp-for="CourseId" asp-items="@Model.Courses" class="form-select">
+                                <option value="">-- Select Course --</option>
+                            </select>
+                            <span asp-validation-for="CourseId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>Save Changes
+                        </button>
+                        <button type="button" class="btn btn-danger ms-2" id="deleteButton">
+                            <i class="fas fa-trash-alt me-2"></i>Delete Student
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <form asp-action="Delete" asp-controller="Students" method="post" id="deleteForm" style="display:none;">
+            <input type="hidden" name="id" value="@ViewBag.StudentId" />
+        </form>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('deleteButton').addEventListener('click', function (event) {
+            if (confirm('Are you sure you want to delete this student?')) {
+                document.getElementById('deleteForm').submit();
+            }
+        });
+    </script>
+}
